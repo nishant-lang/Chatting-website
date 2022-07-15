@@ -49,8 +49,9 @@
 				</a>
 			</div>
 			<div class="login-menu">
-				<ul>
-					<li><a href= "/logout/">Logout</a></li>
+				<ul class="d-flex" >
+					<span class="mr-4" ><a href="/inbox/" role="button">Inbox</a></span>
+					<span class="mx-3"><li><a href= "/logout/">Logout</a></li></span>
 				</ul>
 			</div>
 		</div>
@@ -65,9 +66,12 @@
 	       <div/>
 	    <div/>
   
+
+  <h2 class="text-green mb-4 " > Send You Messages </h2>
   <h3>From :</h3><button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     {{currentuser}} 
    </button>
+   
    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" aria-placeholder="name" >
      <li><a class="dropdown" href="#">
        {% if user.is_authenticated %}            
@@ -92,7 +96,7 @@
      {% endfor %}
    </select><br>
    <!-- <textarea  rows="4" cols="50" name="=message"><br> -->
-    <textarea name="message" class="my-1" cols="30" rows="5"></textarea><br>
+    <textarea name="message" class="my-1" placeholder="Write Your messages here..."  cols="30" rows="5"></textarea><br>
    <input type="submit" class="btn btn-primary m-3 " >
 </form>
 

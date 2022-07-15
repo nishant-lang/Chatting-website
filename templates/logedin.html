@@ -1,10 +1,11 @@
+
 {% for message in messages %}
 <script> 
   alert('{{message}}')
 </script>
 {% endfor %}
 
-<!DOCTYPE html>
+ <!DOCTYPE html >
 <html>
 
 <head>
@@ -38,131 +39,328 @@
 		gtag('config', 'UA-119386393-1');
 	</script>
 </head>
-<body>
+<body class="  ard-box chat-box"  >
 
-<div class="login-header d-flex box-shadow"> 
+ <div class="login-header d-flex box-shadow"> 
 	<div class="  container-fluid d-flex "> 
 		<div class="brand-logo mt-2">
 			<a href="/">
 				<img src="/static/vendors/images/deskapp-logo.svg" alt="">
 			</a> 
 		</div>
-    </div>
+    </div> 
 
-<div class="login-header d-flex justify-content-end box-shadow">
+ <div class="login-header d-flex justify-content-end box-shadow">
 	<!-- <div class="user-info-dropdown"> -->
-		<div class="dropdown">
+
+		<div class="dropdown ">
 			<div class="pl-5" >
-			<a  href="modal" data-toggle="modal" data-target="#modal" class="edit-avatar" ><img src="/static/vendors/images/photo1.jpg" alt=""  width="70p"></a>
-		    </div>
-			<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-				
+			<a  href="modal" data-toggle="modal" data-target="#modal" class="edit-avatar"><img src="" alt="" height="70px" width="70px" id="avatar"></a>
+		    </div> 
+		
+			<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">		
 				<span class="user-icon">
 					<span class="user-name pl-0 ">{{user}}</span>
 				</span>
 			</a>
-			<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-				<a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
-				<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-				<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
+			    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">		 
 				<a class="dropdown-item" href="/logout/"><i class="dw dw-logout"></i> Log Out</a>
-			</div>
+			   </div>
 		</div>
 	</div>
 </div>       
-       <!-- Modal -->
-		 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-body pd-5">
-						<div class="img-container">
-						 <!-- <img id="image" src="/static/vendors/images/photo2.jpg" alt="Picture"> -->
-							<!-- <img src="" id="image" alt="picture"> -->
-							<img src="" height="200" alt="Image preview..." id="image" >
 
+    <!-- Modal for the profile  -->
+	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content mx-5">
+					<div class="modal-body pd-5 "  >
+						<div class="img-container  ">
+							<img  id="frame"  width="400px" height="400px"/>
 						</div>
 					</div>
+
 					<div class="modal-footer">
-						<input type="file" onchange="previewFile()"><br>
-						<input type="submit" value="Update" class="btn btn-primary">
+                        <!-- form -->
+						<!-- <form class="d-flex" method="POST" enctype="multipart/form-data" > -->
+						<!-- {% csrf_token %} -->
+						<!-- <input type="file" name="profile" onchange="preview()"> -->
+
+					    <input type="file"  onchange="preview()" id="file" > 
+
+						<input type="submit"  class="btn btn-primary" id="Profile_submit" onclick="Profile()" data-dismiss="modal"><br> 
+						
+					    <!-- </form> -->
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
 		</div>  
-	</div>
+	</div> 
 
 
-		<!-- Dropdown -->
+<!-- Modal for the Edit-blog -->
 
-			<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-				<!-- <a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
-				<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a> -->
-				<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
-				<a class="dropdown-item" href="/logout/"><i class="dw dw-logout"></i> Log Out</a>
+<div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content mx-5">
+				<div class="modal-body pd-5">
+					<div class="img-container ">
+						<textarea name="blog_update" id="blog_update" cols="40" rows="4" value="" ></textarea>
+					</div>
+					</div>
+					<div class="modal-footer">      
+						
+						<button type="button" class="btn btn-primary" id="blog_updated" data-dismiss="modal"   onclick="update_blog()">update</button><br>
+						<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+					</div>
+				</div>
 			</div>
-		</div>
+		</div>  
+	</div>  
+
+	<div  class="pd-10 card-box mb-30 my-1 chat-box">
+		<div class=" chat_text_area d-flex mx-2 mb-2">
+			<textarea id="post" cols="50" class="my-2" placeholder=" What is in your mind...." ></textarea>
+		  <div class="chat_send">
+			
+			  <button class="btn btn-link my-3" onclick="Postblog()" type="submit"><i class="icon-copy ion-paper-airplane"></i></button>
+		  </div>
+		  <span class="mx-4 mt-4 "><a class="text-blue" href="/post1/" role="button">Message</a></span>
+		  <!-- <span  class="my-3"><a class="dropdown-item" href="/inbox/" role="button">Inbox</a></span> -->
+		  <span  class="my-4 "><a href="{% url 'chat' user.id  %}" class="text-blue" role="button">Chat</a></span>
+		</div> 
+
+        <div id="bloghtml">
+			<!--  bolog Domanupulation is happning -->
+	    </div>	
+
 	</div>
-</div>
-
-</div>
-
- <div class="register-page-wrap d-flex align-items-center "> 
-		 <div class="container">
-			<div class="row align-items-center">
-				<div class="col-md-6 col-lg-7">
-					<img src="/static/vendors/images/register-page-img.png" alt="">
-		        </div> 
-			<div/>
-	    <div/>
-	<div/>	
- <div class="mx-5 my-5">
-		<div>
-		Hello,{{user}}
-		</div><br>	
-		<a class="btn btn-primary" href="/post1/" role="button">Post</a>
-		<a class="btn btn-primary" href="/inbox/" role="button">Inbox</a>
-		<a href="{% url 'chat' user.id  %}"  class="btn btn-primary"role="button" >Chat</a>
-		</div>	
-
-   
 	<script src="/static/vendors/scripts/core.js"></script>
 	<script src="/static/vendors/scripts/script.min.js"></script>
 	<script src="/static/vendors/scripts/process.js"></script>
 	<script src="/static/vendors/scripts/layout-settings.js"></script>
 	<script src="/static/src/plugins/cropperjs/dist/cropper.js"></script>
 
+
 	<script>
+        
+	//THIS FUNCTION IS FOR WHEN THE PAGE IS RELOAD IT CALL THE FUNCTION AUTOMATECALLY
+		
+	window.addEventListener('DOMContentLoaded',(event) => {
+		Getprofilepic()
+		get_blog_post()
 
-	    window.addEventListener('DOMContentLoaded', function () {
-			var image = document.getElementById('image');
-			var cropBoxData;
-			var canvasData;
-			var cropper;
+		}) 
 
-			 $('#modal').on('shown.bs.modal', function () {
-				cropper = new Cropper(image, {
-					autoCropArea: 0.5,
-					dragMode: 'move',
-					aspectRatio: 3 / 3,
-					restore: false,
-					guides: false,
-					center: false,
-					highlight: false,
-					cropBoxMovable: false,
-					cropBoxResizable: false,
-					toggleDragModeOnDblclick: false,
-					ready: function () {
-						cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
-					}
-				}); 
-			}).on('hidden.bs.modal', function () {
-				cropBoxData = cropper.getCropBoxData();
-				canvasData = cropper.getCanvasData();
-				cropper.destroy();
-			});
-		});  
+	const imgpreview=document.querySelector('#frame')
+	function preview() {
+		// frame.src=URL.createObjectURL(event.target.files[0]);
+		imgpreview.src=URL.createObjectURL(event.target.files[0]); 	
+	}
+
+	const image=document.querySelector('#pic')
+	//console.log(image)
 
 	</script>
-	   
+
+<script>
+
+	// POST method for the blog post
+
+    function Postblog(){
+		
+        const blog_typing=document.querySelector('#post').value 
+
+		data={'blog_typing':blog_typing}
+		//console.log(blog_typing) 
+		//console.log('{{csrf_token}}')
+	
+		fetch(`http://127.0.0.1:8000/blog_post/`,{
+            method:"POST",
+			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+			body:JSON.stringify(data),
+			credential:'same-origin',
+		}).then(response => {
+			return response.json()
+			//return get_blog_post()
+			
+        }).then((data)=>{
+		
+		const renderHtml = function(data){
+				
+			const html =
+				`
+				<div class="pd-20 card-box mb-30">
+					<h4 class="h4 text-green mb-10">${data.user_email}</h4>
+					<pid="post_content">${data.blog}</p> 
+					<a href="/blog_delete/${data.blog_id}" class="text-blue mx-1">del</a>
+					<a href="" onclick="blogs(${data.blog_id})" data-toggle="modal" data-target="#post-modal" class="text-blue">edit</a>	
+					
+				<div/>
+				`
+				document.querySelector('#bloghtml').insertAdjacentHTML("beforeend",html)
+				document.getElementById("post").value=""; 
+			}
+			renderHtml(data)
+		})
+    }
+
+</script>
+
+
+<script>
+
+// Get method for blog post
+		
+function get_blog_post(){
+	console.log('{{obj}}')
+	
+		fetch(`http://127.0.0.1:8000/blog_post/`,{
+			method:'get',
+			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+			credentials:"same-origin"
+		})
+		.then(response=>{
+			
+			return response.json()
+		})
+		.then((data)=>{
+				
+			const renderHtml = function(data){
+				console.log(data['blog_user'])
+				console.log(data)		
+				for(let i = 0 ; i < data.all_blogs.length; i++ ){			
+					//console.log(data.all_blogs[i].blog_id)
+					//console.log(data.all_blog[i].blogs)
+					
+				const html =
+
+					`
+						<div class="pd-20 card-box mb-30">
+						<h4 class="h4 text-green mb-10">${data['blog_user']}</h4>
+						<pid="post_content">${data.all_blogs[i].blogs}</p> 
+						<a href="/blog_delete/${data.all_blogs[i].blog_id}" class="text-blue mx-1">delete</a>
+						<a href="" onclick="blogs(${data.all_blogs[i].blog_id})" data-toggle="modal" data-target="#post-modal" class="text-blue mx-1">edit</a>
+					<div/>
+
+					`
+				document.querySelector('#bloghtml').insertAdjacentHTML("beforeend",html)
+
+				}
+			}
+			renderHtml(data)
+			})
+		}
+	</script>
+
+
+	<!-- PEOFILE PICTURE API -->
+
+	<script>
+
+		//Post method for the profile picture
+
+    const Profile = function(){
+		
+		var imgupdate = document.getElementById('avatar')
+		var data = new FormData();
+
+		data.append("file",$("input[id^='file']")[0].files[0]);
+		data.append("csrfmiddlewaretoken","{{csrf_token}}");
+		//console.log(data)
+
+		fetch(`http://127.0.0.1:8000/user_profile/`,{
+			method:"POST",
+			//headers:{"content-Type":""}, Content-type is set for the default in the project setting
+			body:(data),
+			credential:'same-origin', 	
+		})
+		.then(response=>{
+				
+			Getprofilepic()
+		})
+	}
+
+   // Get method for profile Pic 
+		
+	function Getprofilepic(){
+		image_update=document.querySelector('#avatar')
+		
+		var data = new FormData();
+		data.append("csrfmiddlewaretoken","{{csrf_token}}");
+
+		fetch(`http://127.0.0.1:8000/user_profile/`,{
+			method:'get',
+			data:data,
+			credential:'same-origin',
+
+		}).then(response=>{
+			return response.json()
+			//console.log(response)
+
+		}).then((data)=>{
+			// console.log(data)
+			image_update.src=`/media/${data.img}`
+		})
+	}
+	
+	</script> 
+
+
+<!-- BLOG UPDATING AJAX CALL -->
+
+	<script>
+        
+    //for cureent post passing the id of the post
+	var selected_blog=0
+
+	function blogs(pk){
+
+		const blogid=pk	
+		//console.log(blogid)
+
+		fetch(`http://127.0.0.1:8000/blog_update/${blogid}`,{
+
+			method:'get',
+			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+			credentials:"same-origin"
+
+		}).then(response=>{
+			return response.json()
+			
+		}).then((data)=>{
+
+			console.log(data)
+			document.getElementById("blog_update").value=data['obj']
+			selected_blog=data['id']
+		})	
+	}
+	
+	//Updating the current blog by this ajax call
+
+	function update_blog(){
+
+		const updated_blog=document.querySelector('#blog_update').value
+		const data={'blog_id':selected_blog,'blog':updated_blog}
+		console.log(updated_blog)
+
+		fetch(`http://127.0.0.1:8000/updated_blog/`,{
+
+			method:"POST",
+			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+			body:JSON.stringify(data),
+			credential:'same-origin',
+
+		}).then( () => {
+			const blog_div = document.querySelector('#bloghtml')
+			blog_div.innerHTML = ""
+			get_blog_post();
+			
+		})
+	}
+
+	</script>
+
+
 </body>

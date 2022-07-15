@@ -1,23 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-  <h3>Select User for the Chat</h3>
-  {{chatmessages}}
-  {% for message in chatmessages  %}
-  <h1 > reciver {{message.receiver}}</h1>
-  <h1 > sender {{message.sender}}</h1>
-  <h1 > message {{message.user_chait}}</h1>
-  <h1 > reciver {{message.reciver}}</h1> 
-  <a href="{% url 'chat' user.id  %}">{{user.email}}</a><br>
-   {% endfor %}
-</body>
-</html> -->
+
 {% for message in messages %}
 <script> 
   alert('{{message}}')
@@ -29,7 +10,7 @@
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+	<title>DeskApp </title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="/static/vendors/images/apple-touch-icon.png">
@@ -122,7 +103,7 @@
 									<a href="#">
 									
 										<img src="/static//static/vendors/images/img.jpg" alt="">
-                    <!-- <a href="{% url 'chat' user.id  %}">{{user.email}}</a><br> -->
+                                    <!-- <a href="{% url 'chat' user.id  %}">{{user.email}}</a><br> -->
 										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
 									</a>
 								</li>
@@ -130,7 +111,7 @@
 	
 							 </ul>
 						</div>
-					</div> -->
+					</div> 
 				</div>
 			</div>
 
@@ -469,10 +450,12 @@
 									{% for user in users  %}
 									<ul>
 										<li>
+										{% if user.email != sender.email %} 
 										<a href="{% url 'chat' user.id  %}">
-                                        {% if user.email != sender.email %} 
-										<img src="/static/vendors/images/img.jpg" alt="">
-                                        {{user.username}}
+											
+										<img src="/static/vendors/images/img.jpg"  alt="">
+
+                                        <h6 class="my-2" >{{user.username}}</h6>
 										{% endif %} 
 									</a>
 								</li>
@@ -488,10 +471,12 @@
 									<div class="left">
 										<div class="clearfix">
 											<div class="chat-profile-photo">
-												<img src="/static/vendors/images/profile-photo.jpg" alt="">
+												<img src="/static/vendors/images/profile-photo.jpg" id="chat_user_img" alt="">
 											</div>
 											<div class="chat-profile-name">
-												{% comment %} <h3>{{user.email}}</h3> {% endcomment %}
+												
+												<h3>{{reciveremail}}</h3>
+												
 												<span></span>
 											</div>
 										</div>
@@ -512,84 +497,36 @@
 							<div class="chat-box">
 						<div class="chat-desc customscroll">
 							
-                <!-- chating -->
-
-				<ul id='msg_list'>      
+             
                 {% for message in chatmessages  %}
+				<ul id='msg_list'>   
 					<li class="clearfix admin_chat">
 						<span class="chat-img">
-                            <img src="/static/vendors/images/chat-img2.jpg" alt="">
+                            <img src="/static/vendors/images/chat-img2.jpg"  alt="">
 							    </span>
 								    <div class="chat-body clearfix">
 								    <div class="chat_time">reciver: {{message.receiver}}</div>
-                                    <p > message: {{message.user_chat}}</p><br>
+                                    <p > {{message.user_chat}}</p><br>
 								<div class="chat_time">sender: {{message.sender}}</div>
 							<div class="chat_time">{{message.at_time}}</div>
 						</div>
-					</li>
-					{% endfor %}
-					</ul>
-
+					</li>			
+				</ul>
+				{% endfor %}
+                
 
 					<li class="clearfix upload-file">
-								<span class="chat-img">
-									<img src="/static/vendors/images/chat-img1.jpg" alt="">
-										</span>
-												<div class="chat-body clearfix">
-													<div class="upload-file-box clearfix">
-														<div class="left">
-															<img src="/static/vendors/images/upload-file-img.jpg" alt="">
-															<div class="overlay">
-																<a href="#">
-																	<span><i class="fa fa-angle-down"></i></span>
-																</a>
-															</div>
-														</div>
-														<div class="right">
-															<h3>Big room.jpg</h3>
-															<a href="#">Download</a>
-														</div>
-													</div>
-													<div class="chat_time">09:40PM</div>
-												</div>
-											</li>
-											<li class="clearfix upload-file admin_chat">
-												<span class="chat-img">
-													<img src="vendors/images/chat-img2.jpg" alt="">
-												</span>
-												<div class="chat-body clearfix">
-													<div class="upload-file-box clearfix">
-														<div class="left">
-															<img src="vendors/images/upload-file-img.jpg" alt="">
-															<div class="overlay">
-																<a href="#">
-																	<span><i class="fa fa-angle-down"></i></span>
-																</a>
-															</div>
-														</div>
-														<div class="right">
-															<h3>Big room.jpg</h3>
-															<a href="#">Download</a>
-														</div>
-													</div>
-													<div class="chat_time">09:40PM</div>
-												</div>
-											</li>
-										</ul>
-									</div>
+								
 									<div class="chat-footer">
                                     <div class="file-upload"><a href="#"><i class="fa fa-paperclip"></i></a></div>
 																		
                                     <!-- sending messages -->
 								
 									    <div class="chat_text_area">
-
 										  <textarea id="msg_typing" placeholder="Type your message…"></textarea>
-										   
 										</div>
 										<div class="chat_send">
 										    <button class="btn btn-link"  onclick="sendmsg()"  type="submit"><i class="icon-copy ion-paper-airplane"></i></button>
-                         
 									    </div>
 									</div>
 								</div>
@@ -606,24 +543,35 @@
 	</div>
 	<!-- js -->
 
+
+	<script>
+		window.addEventListener('DOMContentLoaded',(event) => {
+			user_select_img()
+	
+			}) 
+	</script>
+
     <script>
 
-		function sendmsg(){
+	function sendmsg(){
 		var msg=document.querySelector('#msg_typing').value
 		let data = {'msg':msg}
 		console.log('{{csrf_token}}')
 		console.log(msg)
 		const reciever = '{{chatting_with_user}}' 
+
 		fetch(`http://127.0.0.1:8000/message/${reciever}`,{ 
 			method: "POST",
 			body:JSON.stringify(data),
 			headers: {'X-CSRFToken':'{{csrf_token}}',"Content-Type": "application/json"},
 			credentials:'same-origin', 
 		})
+
 		  .then(response => {
-			
 			return response.json()
+			console.log(response[0])
 		})
+
 		.then((data) => {
 		
 			const renderHtml = function(data) {
@@ -649,6 +597,18 @@
 		})
 		  .catch(error => console.log('error',error));
 		}   
+		</script>
+
+
+
+		<script>
+        var chat_img='{{img.pic}}'
+		   
+		function user_select_img(){
+		  const chating_img=document.querySelector("#chat_user_img")
+		  chating_img.src=`/media/${chat_img}`
+		}
+
 		</script>
 
 

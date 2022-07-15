@@ -76,13 +76,20 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-     'default': {
+    #    'default':{
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'deskapp',
+    #     'USER':'postgres',
+    #     'HOST':'database-4.c1bpk1ex6vcu.us-west-2.rds.amazonaws.com',
+    #     'PASSWORD':'Nishantverma',
+    #     'PORT':'5432'
+    # }
+    'default':{
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'deskapp',
+        'NAME':'Anydesk',
         'USER':'postgres',
-        'HOST':'database-4.c1bpk1ex6vcu.us-west-2.rds.amazonaws.com',
-        'PASSWORD':'Nishantverma',
-        'PORT':'5432'
+        'PASSWORD':'1234',
+        'PORT':'5432'     
     }
 }
 
@@ -139,4 +146,20 @@ AUTH_USER_MODEL='userprofile.User'
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
-# STATIC_ROOT='static/'
+
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PARSER_CLASSES': (
+#         'rest_framework.parsers.FormParser',
+#         
+#      )
+#  }
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser',
+    ]
+}

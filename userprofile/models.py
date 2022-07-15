@@ -1,4 +1,5 @@
 
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -43,7 +44,6 @@ class User(AbstractBaseUser,PermissionsMixin):
     username=models.CharField(max_length=50,unique=True,null=True)
     email=models.EmailField(max_length=50,unique=True)
     full_name=models.CharField(max_length=50,null=True)
-    profile_pic=models.ImageField(upload_to='pics',null=True)
     gender=models.CharField(max_length=10,null=True)
     city=models.CharField(max_length=50,null=True)
     state=models.CharField(max_length=50,null=True)
@@ -82,3 +82,17 @@ class Chat_messages(models.Model):
     receiver=models.ForeignKey(User,on_delete=models.CASCADE,related_name='receiver_messages')
     user_chat=models.CharField(max_length=500,null=True)
     at_time=models.DateTimeField(auto_now_add=True)
+
+
+class ProfilePic(models.Model):
+    user_pic=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_profile_pic',null=True)
+    pic=models.ImageField(null=True,blank=True)
+    
+ 
+class BlogPost(models.Model):
+    user_blog=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_blog_post',null=True)
+    blog=models.CharField(max_length=100,null=True)
+    on_time=models.DateTimeField(auto_now_add=True,null=True)
+
+    def __str__(self):
+        return self.blog
