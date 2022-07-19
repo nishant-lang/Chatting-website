@@ -85,11 +85,9 @@ DATABASES = {
     #     'PORT':'5432'
     # }
     'default':{
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'Anydesk',
-        'USER':'postgres',
-        'PASSWORD':'1234',
-        'PORT':'5432'     
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+
     }
 }
 
