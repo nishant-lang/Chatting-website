@@ -33,7 +33,7 @@ def register(request):
                
             else:
                 user=User.objects.create_user(email=email,username=username,full_name=full_name,gender=gender,state=state,cardnumber=cardnumber,cvc=cvc,city=city,password=password)
-                user.save()
+                # user.save()
                 messages.info(request,'User created sucessfully')
                 return redirect('login/')        
         else:
@@ -56,6 +56,7 @@ def login(request):
             messages.info(request,'You are Logedin')
             
             return redirect('/dashbord/')
+            
         else:
             messages.info(request,'invalid credentials') 
             return render(request,"login.html")
@@ -85,12 +86,13 @@ def logout(request):
         messages.info(request,'You are logout')
         return redirect('/')
 
-# All user list functon
+# All user listing functon
 
 def message_post(request):
     users=User.objects.all()        
     currentuser=request.user.email 
-
+    print(users)
+    print(currentuser)
     return render(request,"post1.html",{'users':users,'currentuser':currentuser})
 
 # send message function
@@ -124,29 +126,49 @@ def inbox(request):
 def profile(request):
     return render(request,"profile.html")
 
+
+
 # Chatting function
 
-def chat(request,chatting_with_user):
+def chating_page(request):
+# def chating_page(request):
     context={}
     users=User.objects.all()
-    img=ProfilePic.objects.filter(user_pic=chatting_with_user).last()
+    # img=ProfilePic.objects.filter(user_pic=chatting_with_user).last()
+    # img=ProfilePic.objects.filter(user_pic=chatting_with_user).last()
 
     
-    chatmessages=Chat_messages.objects.filter((Q(sender=request.user)|Q(receiver=request.user))&((Q(sender=chatting_with_user)|Q(receiver=chatting_with_user))))
+    # chatmessages=Chat_messages.objects.filter((Q(sender=request.user)|Q(receiver=request.user))&((Q(sender=chatting_with_user)|Q(receiver=chatting_with_user))))
+
 
     csrf_token=django.middleware.csrf.get_token(request)
     currentuser=User.objects.get(id=request.user.id)
-    reciveremail=User.objects.get(id=chatting_with_user)
+    print(currentuser)
+    # reciveremail=User.objects.get(id=chatting_with_user)
 
-    context['chatting_with_user']=chatting_with_user
-    context['chatmessages']=chatmessages
+    # context['chatting_with_user']=chatting_with_user
+    # context['chatmessages']=chatmessages
+
     context['csrf_token']=csrf_token
     context['sender']=currentuser
     context['users']=users
-    context['reciveremail']=reciveremail
-    context['img']=img
+    # context['reciveremail']=reciveremail
+    # context['img']=img
 
     return render(request,"chat.html",context)
+
+
+# def chating_particular_user(request,chatting_with_user):
+
+#    context={}
+   
+#    current_user=request.user
+#    users=User.objects.all()
+#    context['users']=users
+#    context['current_user']=current_user
+#    context['chatting_with_user']=chatting_with_user
+
+#    return render(request,"chat.html",context)
 
 
 # Message Api
@@ -172,6 +194,23 @@ class Message(generics.GenericAPIView):
             "sender" :currentuser.email,
             "time" :time.strftime("%m/%d/%Y, %I:%M %p")
         })
+
+
+    def get(self,request,chatting_with_user):
+
+
+        all_chat_message=Chat_messages.objects.filter((Q(sender=request.user)|Q(receiver=request.user))&((Q(sender=chatting_with_user)|Q(receiver=chatting_with_user))))
+
+
+        chat=[{'sender_id':chat.sender.id,'reciver_id':chat.receiver.id,'message':chat.user_chat} for chat in all_chat_message]
+     
+
+        return  Response({
+          'chating':chat,
+          'message':'success'
+        })
+
+
 
 # User blogPost api
 
@@ -286,6 +325,13 @@ def blog_delete(request,pk=None):
         
     messages.info(request,'Your message has been deleted')
     return redirect('/dashbord/')
-    
+
+# def chat_websocket(request):
+#     return render(request, 'chat_webScoket.html')
+
+# def room(request, room_name):
+#     return render(request, 'chat_room.html', {
+#         'room_name': room_name
+#     })
 
 

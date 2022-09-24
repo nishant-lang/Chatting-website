@@ -1,3 +1,4 @@
+{% load static %}
 
 {% for message in messages %}
 <script> 
@@ -26,11 +27,16 @@
 	<link rel="stylesheet" type="text/css" href="/static/vendors/styles/core.css">
 	<link rel="stylesheet" type="text/css" href="/static/vendors/styles/icon-font.min.css">
 	<link rel="stylesheet" type="text/css" href="/static/vendors/styles/style.css">
+	<!-- <link rel="stylesheet" type="text/js" href="/static/vendors/scripts/chat.js"> -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	
+	
 
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
 	<script>
+		
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());
@@ -41,101 +47,104 @@
 <body>
 	
 
-	<div class="header">
-		<div class="header-left">
-			<div class="menu-icon dw dw-menu"></div>
-			<div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
-			<div class="header-search">
-				<form>
-					<div class="form-group mb-0">
-						<i class="dw dw-search2 search-icon"></i>
-						<input type="text" class="form-control search-input" placeholder="Search Here">
-						<div class="dropdown">
-							<a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
-								<i class="ion-arrow-down-c"></i>
-							</a>
-							<div class="dropdown-menu dropdown-menu-right">
-								<div class="form-group row">
-									<label class="col-sm-12 col-md-2 col-form-label">From</label>
-									<div class="col-sm-12 col-md-10">
-										<input class="form-control form-control-sm form-control-line" type="text">
-									</div>
+<input type="hidden" id="current_user" value="{{user.id}}">
+
+
+<div class="header">
+	<div class="header-left">
+		<div class="menu-icon dw dw-menu"></div>
+		<div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
+		<div class="header-search">
+			<form>
+				<div class="form-group mb-0">
+					<i class="dw dw-search2 search-icon"></i>
+					<input type="text" class="form-control search-input" placeholder="Search Here">
+					<div class="dropdown">
+						<a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
+							<i class="ion-arrow-down-c"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label">From</label>
+								<div class="col-sm-12 col-md-10">
+									<input class="form-control form-control-sm form-control-line" type="text">
 								</div>
-								<div class="form-group row">
-									<label class="col-sm-12 col-md-2 col-form-label">To</label>
-									<div class="col-sm-12 col-md-10">
-										<input class="form-control form-control-sm form-control-line" type="text">
-									</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label">To</label>
+								<div class="col-sm-12 col-md-10">
+									<input class="form-control form-control-sm form-control-line" type="text">
 								</div>
-								<div class="form-group row">
-									<label class="col-sm-12 col-md-2 col-form-label">Subject</label>
-									<div class="col-sm-12 col-md-10">
-										<input class="form-control form-control-sm form-control-line" type="text">
-									</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-12 col-md-2 col-form-label">Subject</label>
+								<div class="col-sm-12 col-md-10">
+									<input class="form-control form-control-sm form-control-line" type="text">
 								</div>
-								<div class="text-right">
-									<button class="btn btn-primary">Search</button>
-								</div>
+							</div>
+							<div class="text-right">
+								<button class="btn btn-primary">Search</button>
 							</div>
 						</div>
 					</div>
-				</form>
-			</div>
-		</div>
-		<div class="header-right">
-			<div class="dashboard-setting user-notification">
-				<div class="dropdown">
-					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
-						<i class="dw dw-settings2"></i>
-					</a>
 				</div>
-			</div>
-			<div class="user-notification">
-				<div class="dropdown">
-					<a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
-						<i class="icon-copy dw dw-notification"></i>
-						<span class="badge notification-active"></span>
-					</a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<div class="notification-list mx-h-350 customscroll">
-							<ul>
-								<li>
-									<a href="#">
-									
-										<img src="/static//static/vendors/images/img.jpg" alt="">
-                                    <!-- <a href="{% url 'chat' user.id  %}">{{user.email}}</a><br> -->
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
-									</a>
-								</li>
-								<li>
-	
-							 </ul>
-						</div>
-					</div> 
-				</div>
-			</div>
-
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-						<span class="user-icon">
-							<img src="/static/vendors/images/photo1.jpg" alt="">
-						</span>
-						<span class="user-name">{{user.email}}</span>
-					</a>
-					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-						<a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
-						<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-						<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
-						<a class="dropdown-item" href="/logout/"><i class="dw dw-logout"></i> Log Out</a>
-					</div>
-				</div>
-			</div>
-			<div class="github-link">
-				<a href="https://github.com/dropways/deskapp" target="_blank"><img src="vendors/images/github.svg" alt=""></a>
-			</div>
+			</form>
 		</div>
 	</div>
+	
+<div class="header-right">
+<div class="dashboard-setting user-notification">
+	<div class="dropdown">
+		<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
+			<i class="dw dw-settings2"></i>
+		</a>
+	</div>
+</div>
+<div class="user-notification">
+	<div class="dropdown">
+		<a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
+			<i class="icon-copy dw dw-notification"></i>
+			<span class="badge notification-active"></span>
+		</a>
+		<div class="dropdown-menu dropdown-menu-right">
+			<div class="notification-list mx-h-350 customscroll">
+				<ul>
+					<li>
+						<a href="#">
+						
+							<img src="/static/vendors/images/img.jpg" alt="">
+						 {% comment %} <a href="{% url 'chat' user.id  %}">{{user.email}}</a><br> {% endcomment %}
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
+						</a>
+					</li>
+					<li>
+				</ul>
+			</div>
+		</div> 
+	</div>
+</div>
+
+	<div class="user-info-dropdown">
+			<div class="dropdown">
+				<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+					<span class="user-icon">
+						<img  id="chatprofile" src="/static/vendors/images/photo1.jpg" alt="">
+					</span>
+					<span class="user-name">{{user.email}}</span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+					<a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
+					<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
+					<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
+					<a class="dropdown-item" href="/logout/"><i class="dw dw-logout"></i> Log Out</a>
+				</div>
+			</div>
+		</div>
+		<div class="github-link">
+			<a href="https://github.com/dropways/deskapp" target="_blank"><img src="vendors/images/github.svg" alt=""></a>
+		</div>
+	</div>
+</div>
 
 	<div class="right-sidebar">
 		<div class="sidebar-title">
@@ -435,125 +444,134 @@
 					</div>
 				</div>
 
-				<div class="bg-white border-radius-4 box-shadow mb-30">
-					<div class="row no-gutters">
-						<div class="col-lg-3 col-md-4 col-sm-12">
-							<div class="chat-list bg-light-gray">
-								<div class="chat-search">
-									<span class="ti-search"></span>
-									<input type="text" placeholder="Search Contact">
-								</div>
-								
-								<!-- all user -->
+<div class="bg-white border-radius-4 box-shadow mb-30">
+	<div class="row no-gutters">
+		<div class="col-lg-3 col-md-4 col-sm-12">
+			<div class="chat-list bg-light-gray">
+				<div class="chat-search">
+					<span class="ti-search"></span>
+					<input type="text" placeholder="Search Contact">
+				</div>
+				
+		<!-- all user -->
 
-								<div class="notification-list chat-notification-list customscroll">
-									{% for user in users  %}
-									<ul>
-										<li>
-										{% if user.email != sender.email %} 
-										<a href="{% url 'chat' user.id  %}">
-											
-										<img src="/static/vendors/images/img.jpg"  alt="">
+		<div class="notification-list chat-notification-list customscroll">
+			{% for user in users  %}
+			<ul>
+				<li>
+					
+					{% comment %} for the api's you have to use the below line remember it {% endcomment %}
+				    {% comment %} <a href="{% url 'chat' user.id  %}"> {% endcomment %}
+					{% if user.id != sender.id %}
+					
+					<a onclick="get_chating_with_user({{user.id}}) ">
+						
+					<img src="/static/vendors/images/img.jpg" alt="">
 
-                                        <h6 class="my-2" >{{user.username}}</h6>
-										{% endif %} 
-									</a>
-								</li>
-							</ul>
-							{% endfor %}
-							</div>
-				        </div>
-			        </div>
+					<div>
 
-						<div class="col-lg-9 col-md-8 col-sm-12">
-							<div class="chat-detail">
-								<div class="chat-profile-header clearfix">
-									<div class="left">
-										<div class="clearfix">
-											<div class="chat-profile-photo">
-												<img src="/static/vendors/images/profile-photo.jpg" id="chat_user_img" alt="">
-											</div>
-											<div class="chat-profile-name">
-												
-												<h3>{{reciveremail}}</h3>
-												
-												<span></span>
-											</div>
-										</div>
-									</div>
-									<div class="right text-right">
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												Setting
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Export Chat</a>
-												<a class="dropdown-item" href="#">Search</a>
-												<a class="dropdown-item text-light-orange" href="#">Delete Chat</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							<div class="chat-box">
-						<div class="chat-desc customscroll">
-							
-             
-                {% for message in chatmessages  %}
-				<ul id='msg_list'>   
-					<li class="clearfix admin_chat">
-						<span class="chat-img">
-                            <img src="/static/vendors/images/chat-img2.jpg"  alt="">
-							    </span>
-								    <div class="chat-body clearfix">
-								    <div class="chat_time">reciver: {{message.receiver}}</div>
-                                    <p > {{message.user_chat}}</p><br>
-								<div class="chat_time">sender: {{message.sender}}</div>
-							<div class="chat_time">{{message.at_time}}</div>
-						</div>
-					</li>			
-				</ul>
-				{% endfor %}
-                
+						<h6 class="my-2" id="user_{{user.id}}">{{user.username}}</h6>
+						<p id="notify_{{user.id}}"></p>
+					</div>
+				
+					{% endif %}
+				</a>
+			</li>
+		</ul>
+		{% endfor %}
+		</div>
+	</div>
+</div>
 
-					<li class="clearfix upload-file">
-								
-									<div class="chat-footer">
-                                    <div class="file-upload"><a href="#"><i class="fa fa-paperclip"></i></a></div>
-																		
-                                    <!-- sending messages -->
-								
-									    <div class="chat_text_area">
-										  <textarea id="msg_typing" placeholder="Type your message…"></textarea>
-										</div>
-										<div class="chat_send">
-										    <button class="btn btn-link"  onclick="sendmsg()"  type="submit"><i class="icon-copy ion-paper-airplane"></i></button>
-									    </div>
-									</div>
-								</div>
-							</div>
-						</div>
+<div class="col-lg-9 col-md-8 col-sm-12">
+	<div class="chat-detail">
+		<div class="chat-profile-header clearfix">
+			<div class="left">
+				<div class="clearfix">
+					<div class="chat-profile-photo">
+						<img src="/static/vendors/images/profile-photo.jpg" id="chat_user_img" alt="">
+					</div>
+					<div class="chat-profile-name">
+						
+						<h3 class='my-2' id='profile-name'></h3>
+						
+						<span></span>
 					</div>
 				</div>
 			</div>
 
-			<div class="footer-wrap pd-20 mb-20 card-box">
-				DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+			<div class="right text-right">
+				<div class="dropdown">
+					<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+						Setting
+					</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a class="dropdown-item" href="#">Export Chat</a>
+						<a class="dropdown-item" href="#">Search</a>
+						<a class="dropdown-item text-light-orange" href="#">Delete Chat</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		 							
+	
+<div class="chat-box">						
+	<div class="chat-desc customscroll" >
+	 <div id="userchat">
+		<ul id='msg_list'>
+				
+					
+		</ul>
+	</div> 
+	<li class="clearfix upload-file">			
+	<div class="chat-footer">
+    <div class="file-upload"><a href="#"><i class="fa fa-paperclip"></i></a></div>
+
+
+
+<!-- sending messages -->
+					<form id="form_body">
+					<div class="chat_text_area">
+						<div class="chat_text_area">
+							<textarea id="msg_typing" placeholder="Type your message…"></textarea> 
+							<!-- <input type="text" id="msg_typing" placeholder="Type your msg..."   > -->
+						</div>
+						<div class="chat_send">	
+							<button class="btn btn-link"  type="submit"><i class="icon-copy ion-paper-airplane"></i></button>
+										
+							<!-- <button class="btn btn-link"  onclick="send_chat_msg()"  type="submit"><i class="icon-copy ion-paper-airplane"></i></button> -->
+						</div>
+					</form>	   
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<!-- js -->
+</div>
 
+<!-- <button class="btn btn-link"  onclick="send_chat_msg()"  type="submit"><i class="icon-copy ion-paper-airplane"></i></button>	 -->
 
-	<script>
-		window.addEventListener('DOMContentLoaded',(event) => {
-			user_select_img()
-	
-			}) 
-	</script>
+<div class="footer-wrap pd-20 mb-20 card-box">
+		DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+		</div>
+	</div>
+</div>
 
-    <script>
+<!-- js -->
 
-	function sendmsg(){
+<script>
+	window.addEventListener('DOMContentLoaded',(event) => {
+		//user_select_img()
+		//get_chat_msg()
+
+		}) 
+</script>
+
+ <script>
+
+ //POST method for chat 
+{% comment %} 
+	function send_chat_msg(){
 		var msg=document.querySelector('#msg_typing').value
 		let data = {'msg':msg}
 		console.log('{{csrf_token}}')
@@ -563,60 +581,207 @@
 		fetch(`http://127.0.0.1:8000/message/${reciever}`,{ 
 			method: "POST",
 			body:JSON.stringify(data),
-			headers: {'X-CSRFToken':'{{csrf_token}}',"Content-Type": "application/json"},
+			headers: {'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
 			credentials:'same-origin', 
 		})
 
 		  .then(response => {
-			return response.json()
-			console.log(response[0])
+			document.querySelector('#msg_list').innerHTML=''
+			get_chat_msg()
+
 		})
+	} 
 
-		.then((data) => {
-		
-			const renderHtml = function(data) {
-			console.log(data)
+//Get method for the chat message
 
-			const html = `<li class="clearfix admin_chat">
-										<span class="chat-img">
-										<img src="/static/vendors/images/chat-img2.jpg" alt="">
-										</span>
-										<div class="chat-body clearfix">
-										<div class="chat_time">reciver:${data['reciever']} </div>
-										<p > message:${data['message']} </p><br>
-										<div class="chat_time">sender:${data['sender']} </div>
-										<div class="chat_time">${data['time']}</div>
-										</div>
-									</li>`
+    function get_chat_msg(chatting_with_user){
+		console.log(chatting_with_user)
+		const reciever = chatting_with_user 
+        const sender='{{request.user.id}}'
 
-			document.querySelector('#msg_list').insertAdjacentHTML('beforeend',html)
-			document.querySelector('#msg_typing').value = ''
-			console.log("success")
-			}			
-			renderHtml(data);
-		})
-		  .catch(error => console.log('error',error));
-		}   
-		</script>
+    fetch(`http://127.0.0.1:8000/message/${reciever}`,{
+        method:'get',
+		headers: {'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+		credentials:'same-origin', 
+	  })
+	  .then(response=>{  
+		return response.json()
+	  })
+	  .then((data)=>{
+		console.log(data)
+		//console.log(data.rec_msg[0].recive_chat)
+		//console.log(data.sen_msg[0].sender_chat)
+
+    const renderHtml = function(data) {
+
+        for(let i=0;i<data.chating.length;i++){
+
+			//console.log(rec_msg[i].recive_chat)
+            
+			if(data.chating[i].sender_id==sender){
+
+			 const html = `<li class="clearfix admin_chat">
+				            <div class="chat-body clearfix  ">	
+			 				<p > ${data.chating[i].message} </p><br>			
+			 				</div>
+			 				</li>`
+
+        document.querySelector('#msg_list').insertAdjacentHTML('beforeend',html)
+        document.querySelector('#msg_typing').value = ''
+        console.log("success")
+	   }
+       
+	   else{
+		const html = `<li class="clearfix admin_chat ">
+			<div class="chat-body clearfix " style='float:left'  >	
+			 <p > ${data.chating[i].message} </p><br>
+						 
+				</div>
+				</li>` 
+
+        	document.querySelector('#msg_list').insertAdjacentHTML('beforeend',html)
+            document.querySelector('#msg_typing').value = ''
+            console.log("success")
+
+	   }
+
+	}
+	   
+	}
+	renderHtml(data)
+	//document.querySelector('.chat-desc').scrollTop=document.querySelector('.chat-desc').scrollHeight
+
+	})
+}
+
+</script> 
+
+<script>
+
+  	 
+</script>
 
 
-
-		<script>
-        var chat_img='{{img.pic}}'
-		   
-		function user_select_img(){
-		  const chating_img=document.querySelector("#chat_user_img")
-		  chating_img.src=`/media/${chat_img}`
+     {% comment %} <script>
+       var chat_img='{{img.pic}}
+ 	   function user_select_img(){
+ 	   const chating_img=document.querySelector("#chat_user_img")
+		const profile_pic=document.querySelector('#chatprofile')
+ 	  chating_img.src=`/media/${chat_img}`
+ 	  profile_pic.src=`/media/${chat_img}`
 		}
+	</script>{% endcomment %}
 
-		</script>
+
+<script> 
+// WEB SOCKET
+var chating_with_user;
+var chating_with_user_name;
+
+function get_chating_with_user(user_id){
+
+	chating_with_user = user_id;
+
+	chating_with_user_name = document.getElementById(`user_${user_id}`).innerText;
+	document.getElementById(`notify_${user_id}`).innerHTML = "";
+    document.querySelector("#profile-name").innerText = chating_with_user_name;
+    
+	document.querySelector("#msg_list").innerHTML = "";
+	
+
+	get_chat_msg(chating_with_user)
+
+}
+
+var input_msg = $("#msg_typing");
+var send_message_form = $("#form_body");
+//var send_message_form=document.getElementById('form_body') // this will not work
+var msg_card_body = $("#msg_list");
+
+var currnet_user_id = $("#current_user").val();
+
+console.log(currnet_user_id);
 
 
+  let loc = window.location;
+  let wsStart = "ws://";
+  if (loc.protocol === "https") {
+    wsStart = "wss://";
+  }
+
+  let endpoint =
+    wsStart +
+    loc.host +
+    loc.pathname +
+    currnet_user_id;
+    
+  console.log(endpoint);
+
+  var socket = new WebSocket(endpoint);
+
+  socket.onopen = async function (e) {
+    console.log("start");
+
+    send_message_form.on("submit", function (e) {
+      e.preventDefault();
+      let message = input_msg.val();
+
+      let data = {
+        message: message,
+        send_to: chating_with_user,
+		from:currnet_user_id
+      };
+
+      data = JSON.stringify(data);
+      socket.send(data);
+
+	  const html = `<li class="clearfix admin_chat">
+		<div class="chat-body clearfix">	
+		 <p> ${message} </p><br>			
+		 </div>
+		 </li>`
+
+	  document.querySelector('#msg_list').insertAdjacentHTML('beforeend',html)
+	  document.querySelector('#msg_typing').value = ''
+    });
+  };
+
+  socket.onmessage = async function (e) {
+    let data = JSON.parse(e.data);
+    let message = data["message"];
+    let from = data["from"];
+    console.log(data);
+
+    if (from == chating_with_user){
+		const html = `<li class="clearfix admin_chat ">
+			<div class="chat-body clearfix " style='float:left'  >	
+			 <p  >${message}</p><br>		 
+			</div>
+			</li>`;
+
+		document.querySelector("#msg_list").insertAdjacentHTML("beforeend", html);
+	}
+	else{
+
+		document.getElementById(`notify_${from}`).innerHTML = "You have new message";
+		
+	}
+  };
+
+  socket.onerror = async function (e) {
+    console.log("error", e);
+  };
+
+  socket.onclose = async function (e) {
+    console.log("close", e);
+  };
+
+	</script>
+    <script src="/static/js/chat.js"></script>
 	<script src="/static/vendors/scripts/core.js"></script>
 	<script src="/static/vendors/scripts/script.min.js"></script>
 	<script src="/static/vendors/scripts/process.js"></script>
 	<script src="/static/vendors/scripts/layout-settings.js"></script>
-
 </body>
 </html>
 

@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'userprofile',
-    'rest_framework'
+    'rest_framework',
+    'channels'
+
 ]
 
 MIDDLEWARE = [
@@ -70,6 +72,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
+ASGI_APPLICATION = 'project.asgi.application'
 
 
 # Database
@@ -84,12 +87,14 @@ DATABASES = {
     #     'PASSWORD':'Nishantverma',
     #     'PORT':'5432'
     # }
+    
     'default':{
-        'ENGINE': 'django.db.backends.postgresql',
+       'ENGINE': 'django.db.backends.postgresql',
         'NAME':'Anydesk',
         'USER':'postgres',
         'PASSWORD':'1234',
-        'PORT':'5432'     
+        'PORT':'5432' 
+   
     }
 }
 
@@ -162,4 +167,13 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.MultiPartParser',
     ]
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        # 'CONFIG': {
+        #     'hosts': [('127.0.0.1', 6379)],
+        # }
+    }
 }

@@ -67,32 +67,31 @@
 	    <div/>
   
 
-  <h2 class="text-green mb-4 " > Send You Messages </h2>
+  <h2 class="text-green mb-4"> Send You Messages </h2>
   <h3>From :</h3><button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     {{currentuser}} 
-   </button>
+   </button> 
    
-   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" aria-placeholder="name" >
+   <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" aria-placeholder="name" >
      <li><a class="dropdown" href="#">
        {% if user.is_authenticated %}            
        {{currentuser}}
         {% endif %}
      </a>          
    </li>         
-   </ul>
-</div><br>
+   </ul> 
+</div><br> -->
  
  <form action="/send/" method="post" >
     {% csrf_token %}
  <h3>To :</h3> <select class="custom-select" name="postuser" >
      <option selected>Select user for message</option>
-
      {% for user in users  %} 
-     <!-- {% if user.email != currentuser%} -->
+    {% if user != currentuser %}
      <option value="{{user.email}}">
-         {{user.email}} 
+        {{user.email}} 
      </option>
-     <!-- {% endif %} -->
+	 {%endif%}
      {% endfor %}
    </select><br>
    <!-- <textarea  rows="4" cols="50" name="=message"><br> -->

@@ -51,6 +51,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     cvc=models.CharField(unique=True,null=True,max_length=6)
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)
+    
 
     objects=UserProfileManager()
 

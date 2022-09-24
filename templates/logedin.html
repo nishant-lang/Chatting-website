@@ -50,20 +50,19 @@
 		</div>
     </div> 
 
- <div class="login-header d-flex justify-content-end box-shadow">
+ <!-- <div class="login-header d-flex justify-content-end box-shadow"> -->
 	<!-- <div class="user-info-dropdown"> -->
+<div class="dropdown">
+		 <div class="pl-5 ml-3 " >
+			<a  href="modal" data-toggle="modal" data-target="#modal" class="edit-avatar"><img src="" alt="" height="50px" width="60px" id="avatar"></a>
+		</div>  
 
-		<div class="dropdown ">
-			<div class="pl-5" >
-			<a  href="modal" data-toggle="modal" data-target="#modal" class="edit-avatar"><img src="" alt="" height="70px" width="70px" id="avatar"></a>
-		    </div> 
-		
 			<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">		
 				<span class="user-icon">
 					<span class="user-name pl-0 ">{{user}}</span>
 				</span>
 			</a>
-			    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">		 
+			<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">		 
 				<a class="dropdown-item" href="/logout/"><i class="dw dw-logout"></i> Log Out</a>
 			   </div>
 		</div>
@@ -119,6 +118,8 @@
 		</div>  
 	</div>  
 
+	<!-- Html for blog post -->
+
 	<div  class="pd-10 card-box mb-30 my-1 chat-box">
 		<div class=" chat_text_area d-flex mx-2 mb-2">
 			<textarea id="post" cols="50" class="my-2" placeholder=" What is in your mind...." ></textarea>
@@ -126,13 +127,15 @@
 			
 			  <button class="btn btn-link my-3" onclick="Postblog()" type="submit"><i class="icon-copy ion-paper-airplane"></i></button>
 		  </div>
+
 		  <span class="mx-4 mt-4 "><a class="text-blue" href="/post1/" role="button">Message</a></span>
-		  <!-- <span  class="my-3"><a class="dropdown-item" href="/inbox/" role="button">Inbox</a></span> -->
-		  <span  class="my-4 "><a href="{% url 'chat' user.id  %}" class="text-blue" role="button">Chat</a></span>
+
+		  <span  class="my-4 "><a href="{% url 'chat' %}" class="text-blue" role="button">Chat</a></span>
+		  {% comment %} <span  class="my-4 "><a href="{% url 'chatpage' user.id %}" class="text-blue" role="button">Chat</a></span> {% endcomment %}
 		</div> 
 
         <div id="bloghtml">
-			<!--  bolog Domanupulation is happning -->
+			<!--  blog Dom-manupulation is area -->
 	    </div>	
 
 	</div>
@@ -194,9 +197,8 @@
 				<div class="pd-20 card-box mb-30">
 					<h4 class="h4 text-green mb-10">${data.user_email}</h4>
 					<pid="post_content">${data.blog}</p> 
-					<a href="/blog_delete/${data.blog_id}" class="text-blue mx-1">del</a>
-					<a href="" onclick="blogs(${data.blog_id})" data-toggle="modal" data-target="#post-modal" class="text-blue">edit</a>	
-					
+					<a href="/blog_delete/${data.blog_id}" class="text-blue mx-1">delete</a>
+					<a href="" onclick="blogs(${data.blog_id})" data-toggle="modal" data-target="#post-modal" class="text-blue">edit</a>		
 				<div/>
 				`
 				document.querySelector('#bloghtml').insertAdjacentHTML("beforeend",html)
