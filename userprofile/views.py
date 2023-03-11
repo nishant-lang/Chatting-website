@@ -32,12 +32,12 @@ def register(request):
                 return redirect('/')
                
             else:
-                user=User.objects.create_user(email=email,username=username,full_name=full_name,gender=gender,state=state,cardnumber=cardnumber,cvc=cvc,city=city,password=password)
-                # user.save()
+                User.objects.create_user(email=email,username=username,full_name=full_name,gender=gender,state=state,cardnumber=cardnumber,cvc=cvc,city=city,password=password)
+                
                 messages.info(request,'User created sucessfully')
                 return redirect('login/')        
         else:
-            messages.info(request,'Password not matching') 
+            messages.info(request,'Password does not matching') 
             return redirect("register")
             
     return render(request,'register.html')
@@ -64,7 +64,7 @@ def login(request):
     else:
         return render(request,"login.html")
        
-# Logedin page
+# Logedin page for the dashbord
 
 def dashbord(request): 
 
@@ -137,13 +137,15 @@ def chating_page(request):
     # img=ProfilePic.objects.filter(user_pic=chatting_with_user).last()
     # img=ProfilePic.objects.filter(user_pic=chatting_with_user).last()
 
-    
     # chatmessages=Chat_messages.objects.filter((Q(sender=request.user)|Q(receiver=request.user))&((Q(sender=chatting_with_user)|Q(receiver=chatting_with_user))))
 
+    # geting the csrftoken
 
     csrf_token=django.middleware.csrf.get_token(request)
+
     currentuser=User.objects.get(id=request.user.id)
     print(currentuser)
+    
     # reciveremail=User.objects.get(id=chatting_with_user)
 
     # context['chatting_with_user']=chatting_with_user
@@ -274,6 +276,7 @@ class ProfilePicAPi(generics.GenericAPIView):
         
         current_user=request.user
         file=request.FILES.get("file")
+        print(file)
 
         user=ProfilePic.objects.model(user_pic=current_user,pic=file)
         user.save()

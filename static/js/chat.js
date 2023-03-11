@@ -1,4 +1,4 @@
-//Get method for the chat message
+// // Get method for the chat message
 
 // function get_chat_msg(){
 //     const reciever = '{{chatting_with_user}}'
@@ -57,7 +57,7 @@
 
 // }
 
-//POST method for chat
+// POST method for chat
 
 //  function send_chat_msg(){
 //     var msg=document.querySelector('#msg_typing').value

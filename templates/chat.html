@@ -570,8 +570,7 @@
  <script>
 
  //POST method for chat 
-{% comment %} 
-	function send_chat_msg(){
+ function send_chat_msg(){
 		var msg=document.querySelector('#msg_typing').value
 		let data = {'msg':msg}
 		console.log('{{csrf_token}}')
@@ -590,7 +589,7 @@
 			get_chat_msg()
 
 		})
-	} 
+	}
 
 //Get method for the chat message
 

@@ -85,7 +85,7 @@
 						<!-- {% csrf_token %} -->
 						<!-- <input type="file" name="profile" onchange="preview()"> -->
 
-					    <input type="file"  onchange="preview()" id="file" > 
+					    <input type="file" onchange="preview()" id="file" > 
 
 						<input type="submit"  class="btn btn-primary" id="Profile_submit" onclick="Profile()" data-dismiss="modal"><br> 
 						
@@ -267,11 +267,11 @@ function get_blog_post(){
 		
 		var imgupdate = document.getElementById('avatar')
 		var data = new FormData();
-
+        
 		data.append("file",$("input[id^='file']")[0].files[0]);
 		data.append("csrfmiddlewaretoken","{{csrf_token}}");
-		//console.log(data)
-
+	    // console.log(data)
+        
 		fetch(`http://127.0.0.1:8000/user_profile/`,{
 			method:"POST",
 			//headers:{"content-Type":""}, Content-type is set for the default in the project setting

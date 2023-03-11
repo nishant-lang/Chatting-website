@@ -12,10 +12,12 @@ from django.contrib.auth.models import BaseUserManager
 class UserProfileManager(BaseUserManager):
 
     """Manager for the user"""   
+
     def create_user(self,email,username,full_name,gender,city,state,cardnumber,cvc,password=None):
         """Create new user"""
         if not email:
             raise ValueError('User must have the email')
+
         email=self.normalize_email(email)    
         user=self.model(email=email,username=username,full_name=full_name,gender=gender,city=city,state=state,cardnumber=cardnumber,cvc=cvc
         )
@@ -39,6 +41,7 @@ class UserProfileManager(BaseUserManager):
 
                 
 class User(AbstractBaseUser,PermissionsMixin):
+    
     """data base model for the user """
 
     username=models.CharField(max_length=50,unique=True,null=True)
