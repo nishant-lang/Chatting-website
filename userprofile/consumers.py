@@ -1,12 +1,12 @@
 
-from email import message
+# from email import message
 import json
 from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth import get_user_model
-from channels.db import database_sync_to_async
+# from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from channels.consumer import AsyncConsumer
+# from channels.consumer import AsyncConsumer
 from userprofile.models import Chat_messages
 
 User=get_user_model()

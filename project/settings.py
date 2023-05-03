@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'userprofile',
     'rest_framework',
-    'channels'
+    'channels',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +75,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'project.wsgi.application'
 ASGI_APPLICATION = 'project.asgi.application'
 
@@ -87,19 +93,19 @@ DATABASES = {
     #     'PORT':'5432'
     # }
     
-    # 'default':{
-    #    'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME':'Anydesk',
-    #     'USER':'postgres',
-    #     'PASSWORD':'1234',
-    #     'PORT':'5432' 
+    'default':{
+       'ENGINE': 'django.db.backends.postgresql',
+        'NAME':'Newmarkdb',
+        'USER':'postgres',
+        'PASSWORD':'1234',
+        'PORT':'5432' 
    
-    # }
-
-     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    #  'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 
 
 
@@ -161,15 +167,6 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 
 
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_PARSER_CLASSES': (
-#         'rest_framework.parsers.FormParser',
-#         
-#      )
-#  }
-
-
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
@@ -185,3 +182,30 @@ CHANNEL_LAYERS = {
         # }
     }
 }
+
+
+
+
+# For added all auth
+
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id':'835757486801-g1n10g5v1r8sk5nuv9h7t93pho3568hf.apps.googleusercontent.com',
+            'secret':'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',
+            'key': ''
+        }
+    }
+}
+
+USE_I18N = True

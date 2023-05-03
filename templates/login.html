@@ -1,9 +1,15 @@
+{% load i18n %}
+
+{% comment %} {% load i18n %} {% endcomment %}
+{% load socialaccount %}
 
  {% for message in messages %}
     <script> 
       alert('{{message}}')
     </script>
-  {% endfor %} 
+  {% endfor %}  
+
+ 
 
 
 <!DOCTYPE html>
@@ -98,9 +104,12 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-sm-12">
-		<div class="input-group mb-0">										
-		<button class="btn btn-primary mx-5 my-2" type="submit">Login</button>
+	<div class="col-sm-12 ">
+		<div class="input-group mb-0 ">										
+		<button class="btn btn-primary mx-5 my-2  text-center  btn-block" type="submit">Login</button>
+		<a class="btn btn-primary mx-5 my-2  text-center  btn-block" href={% provider_login_url "google" next="/dashbord/" %}>Login with Google</a>
+		
+	
 		</div>
 		    <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
 		       <div class="input-group mb-0">
@@ -116,4 +125,5 @@
 	<script src="/static/vendors/scripts/process.js"></script>
 	<script src="/static/vendors/scripts/layout-settings.js"></script>
 </body>
-</html>
+</html> 
+

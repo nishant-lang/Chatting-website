@@ -1,13 +1,18 @@
-
-from django.contrib import messages
-from django.shortcuts import render,redirect
-from userprofile.models import User,UserMessages,Chat_messages,ProfilePic,BlogPost
-from django.contrib.auth.models import auth
-from django.db.models import Q
-from rest_framework.response import Response
-from rest_framework import generics
 import pytz
 import django
+from django.db.models import Q
+from rest_framework import generics
+from django.contrib import messages
+from django.shortcuts import render,redirect,HttpResponse
+from django.contrib.auth.models import auth
+from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
+from userprofile.models import User,UserMessages,Chat_messages,ProfilePic,BlogPost
+from django.contrib.auth import login
+from serializers import Blogseralizer
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 
 
 # User registrations
@@ -52,9 +57,8 @@ def login(request):
         user=auth.authenticate(email=email,password=password)
 
         if user is not None:
-            auth.login(request,user)
+            login(request,user)
             messages.info(request,'You are Logedin')
-            
             return redirect('/dashbord/')
             
         else:
@@ -66,18 +70,28 @@ def login(request):
        
 # Logedin page for the dashbord
 
+@login_required
 def dashbord(request): 
-
     current_user=request.user
+    provider_name = request.GET.get('p')
+    # print(current_user)
+
+    social_account = request.user.socialaccount_set.filter(provider='provider_name').first()
+    if social_account:
+        request.user.first_name = social_account.extra_data.get('first_name', '')
+        request.user.last_name = social_account.extra_data.get('last_name', '')
+        request.user.email = social_account.extra_data.get('email', '')
+        request.user.save()
+    
 
     if request.method=="POST": 
-        
         return render(request,'logedin.html') 
-
     else:    
-    
        csrf_token=django.middleware.csrf.get_token(request)
        return render(request,'logedin.html',{'current_user':current_user,'csrf_token':csrf_token}) 
+
+
+
 
 # Logout page
 
@@ -216,10 +230,11 @@ class Message(generics.GenericAPIView):
 
 # User blogPost api
 
-class UserBlogPostAPi(generics.GenericAPIView):
 
-    def post(self,request):
-        
+@method_decorator(csrf_exempt, name='dispatch')
+class UserBlogPostAPi(generics.GenericAPIView):
+   
+    def post(self,request): 
         current_user=request.user
         blog=request.data['blog_typing']
 
@@ -233,64 +248,60 @@ class UserBlogPostAPi(generics.GenericAPIView):
         return Response({
             'user_email':current_user.email,
             'blog':str(blog),
-            'blog_id':blog_id
+            'blog_id':blog_id,
             # 'time':time.strftime("%m/%d/%Y, %I:%M %p")
         })
 
-
     def get(self,request):
-        
         current_user=request.user
+        blogs=BlogPost.objects.filter(user_blog=current_user).all()  
+
+    #    Below three lin code will be also use for pass the data through the serializer
+
+        # serializer=Blogseralizer(blogs,many=True)
+        # print('HHHIII')
+        # return Response({'data':serializer.data})
        
-        blogs=BlogPost.objects.filter(user_blog=current_user).all()
-     
         blog_content=[{
             'blog_id':blog.id,
-            'blogs':blog.blog
+            'blogs':blog.blog,
+            'on_time':blog.on_time
         } for blog in blogs]
-        
+
         return Response({
             'blog_user':(current_user.email),
             'all_blogs':blog_content,
             'message':'success'
            })
 
-
 # Api for the profile pic
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ProfilePicAPi(generics.GenericAPIView):
-  
 
     def get(self,request):
         current_user=request.user
-    
         img=ProfilePic.objects.filter(user_pic=current_user).last()
-        
         return Response({
             'img':str(img.pic),
             "message":"get method success"    
         })  
-        
-
+    
     def post(self,request):
-        
         current_user=request.user
         file=request.FILES.get("file")
         print(file)
-
         user=ProfilePic.objects.model(user_pic=current_user,pic=file)
         user.save()
-    
         return Response({
-
             'user_pic':current_user.email,
-            'profile_pic':str(file),      # geting error without chenging the file to the str
+            'profile_pic':str(file),  # geting error without chenging the file to the str
             "message":"success"    
         }) 
         
 
 
-# Extracting the current post 
+# Extracting the current post
 class BlogApi(generics.GenericAPIView):
 
     def get(self,request,pk=None):    

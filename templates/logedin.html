@@ -1,9 +1,11 @@
-
+{% load i18n %}
 {% for message in messages %}
 <script> 
   alert('{{message}}')
 </script>
 {% endfor %}
+
+
 
  <!DOCTYPE html >
 <html>
@@ -153,7 +155,6 @@
 	window.addEventListener('DOMContentLoaded',(event) => {
 		Getprofilepic()
 		get_blog_post()
-
 		}) 
 
 	const imgpreview=document.querySelector('#frame')
@@ -178,27 +179,27 @@
 		data={'blog_typing':blog_typing}
 		//console.log(blog_typing) 
 		//console.log('{{csrf_token}}')
-	
+
 		fetch(`http://127.0.0.1:8000/blog_post/`,{
+
             method:"POST",
-			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+			headers:{"Content-Type":"application/json"},
 			body:JSON.stringify(data),
 			credential:'same-origin',
 		}).then(response => {
 			return response.json()
 			//return get_blog_post()
-			
         }).then((data)=>{
-		
+
 		const renderHtml = function(data){
-				
+				console.log(data)
 			const html =
 				`
 				<div class="pd-20 card-box mb-30">
 					<h4 class="h4 text-green mb-10">${data.user_email}</h4>
 					<pid="post_content">${data.blog}</p> 
 					<a href="/blog_delete/${data.blog_id}" class="text-blue mx-1">delete</a>
-					<a href="" onclick="blogs(${data.blog_id})" data-toggle="modal" data-target="#post-modal" class="text-blue">edit</a>		
+					<a href="" onclick="blogs(${data.on_time})" data-toggle="modal" data-target="#post-modal" class="text-blue">edit</a>		
 				<div/>
 				`
 				document.querySelector('#bloghtml').insertAdjacentHTML("beforeend",html)
@@ -213,65 +214,92 @@
 
 <script>
 
-// Get method for blog post
-		
-function get_blog_post(){
-	console.log('{{obj}}')
-	
-		fetch(`http://127.0.0.1:8000/blog_post/`,{
-			method:'get',
-			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
-			credentials:"same-origin"
-		})
-		.then(response=>{
-			
-			return response.json()
-		})
-		.then((data)=>{
-				
-			const renderHtml = function(data){
-				console.log(data['blog_user'])
-				console.log(data)		
-				for(let i = 0 ; i < data.all_blogs.length; i++ ){			
-					//console.log(data.all_blogs[i].blog_id)
-					//console.log(data.all_blog[i].blogs)
-					
-				const html =
 
-					`
-						<div class="pd-20 card-box mb-30">
+//GET METHOD FOR THE BOLOGS WITH THE AJAX
+
+function get_blog_post(){    
+	$.ajax({
+		url: "http://127.0.0.1:8000/blog_post/",
+		type: "GET",
+		dataType: "json",
+		success: function(data) {
+		// handle successful response
+		console.log(data);
+
+		const renderHtml = function(data){
+			//console.log(data['blog_user'])
+			//console.log(data)	
+			for(let i = 0 ; i < data.all_blogs.length; i++ ){			
+				console.log(data.all_blogs[i].blog_id)
+				//console.log(data.all_blog[i].blogs)
+                	const html =
+					`	<div class="pd-20 card-box mb-30">
 						<h4 class="h4 text-green mb-10">${data['blog_user']}</h4>
 						<pid="post_content">${data.all_blogs[i].blogs}</p> 
 						<a href="/blog_delete/${data.all_blogs[i].blog_id}" class="text-blue mx-1">delete</a>
-						<a href="" onclick="blogs(${data.all_blogs[i].blog_id})" data-toggle="modal" data-target="#post-modal" class="text-blue mx-1">edit</a>
-					<div/>
-
+						<a href="" onclick="blogs(${data.all_blogs[i].blog_id})" data-toggle="modal" data-target="#post-modal" class="text-blue mx-1">edit</a><div/>
 					`
 				document.querySelector('#bloghtml').insertAdjacentHTML("beforeend",html)
-
-				}
 			}
-			renderHtml(data)
-			})
 		}
-	</script>
+		renderHtml(data)	
+		},
+
+		error: function(jqXHR, textStatus, errorThrown) {
+		 //handle error response
+		 console.error("AJAX error: " + textStatus, errorThrown);
+		}
+	});
+
+//GET METHOD FOR THE BOLOGS WITH THE FETCH	
+
+		// fetch(`http://127.0.0.1:8000/blog_post/`,{
+		// 	method:'get',
+		// 	headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+		// 	credentials:"same-origin"
+		// })
+		// .then(response=>{
+			
+		// 	return response.json()
+		// })
+		// .then((data)=>{
+				
+		// 	const renderHtml = function(data){
+		// 		console.log(data['blog_user'])
+		// 		console.log(data)		
+		// 		for(let i = 0 ; i < data.all_blogs.length; i++ ){			
+		// 			//console.log(data.all_blogs[i].blog_id)
+		// 			//console.log(data.all_blog[i].blogs)
+					
+		// 		const html =
+		// 			`<div class="pd-20 card-box mb-30">
+		// 				<h4 class="h4 text-green mb-10">${data['blog_user']}</h4>
+		// 				<pid="post_content">${data.all_blogs[i].blogs}</p> 
+		// 				<a href="/blog_delete/${data.all_blogs[i].blog_id}" class="text-blue mx-1">delete</a>
+		// 				<a href="" onclick="blogs(${data.all_blogs[i].blog_id})" data-toggle="modal"           data-target="#post-modal" class="text-blue mx-1">edit</a><div/>
+		// 			`
+		// 		document.querySelector('#bloghtml').insertAdjacentHTML("beforeend",html)
+		// 		}
+		// 	}
+		// 	renderHtml(data)
+		// 	})
+		}
+	</script>  
 
 
 	<!-- PEOFILE PICTURE API -->
 
 	<script>
 
-		//Post method for the profile picture
+	//POST METHOD FOR THE PROFILE PICTURE WITH FETCH
 
     const Profile = function(){
-		
+
 		var imgupdate = document.getElementById('avatar')
 		var data = new FormData();
-        
 		data.append("file",$("input[id^='file']")[0].files[0]);
 		data.append("csrfmiddlewaretoken","{{csrf_token}}");
 	    // console.log(data)
-        
 		fetch(`http://127.0.0.1:8000/user_profile/`,{
 			method:"POST",
 			//headers:{"content-Type":""}, Content-type is set for the default in the project setting
@@ -285,12 +313,12 @@ function get_blog_post(){
 	}
 
    // Get method for profile Pic 
-		
+
 	function Getprofilepic(){
 		image_update=document.querySelector('#avatar')
 		
 		var data = new FormData();
-		data.append("csrfmiddlewaretoken","{{csrf_token}}");
+		//data.append("csrfmiddlewaretoken","{{csrf_token}}");
 
 		fetch(`http://127.0.0.1:8000/user_profile/`,{
 			method:'get',
@@ -310,7 +338,7 @@ function get_blog_post(){
 	</script> 
 
 
-<!-- BLOG UPDATING AJAX CALL -->
+<!-- BLOG UPDATING FETCH  -->
 
 	<script>
         
@@ -325,7 +353,7 @@ function get_blog_post(){
 		fetch(`http://127.0.0.1:8000/blog_update/${blogid}`,{
 
 			method:'get',
-			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
+			//headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
 			credentials:"same-origin"
 
 		}).then(response=>{
@@ -338,7 +366,7 @@ function get_blog_post(){
 			selected_blog=data['id']
 		})	
 	}
-	
+	 
 	//Updating the current blog by this ajax call
 
 	function update_blog(){

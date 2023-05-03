@@ -23,5 +23,6 @@ urlpatterns = [
     path('blog_delete/<int:pk>',views.blog_delete, name='blog_delete'), 
     path('blog_update/<int:pk>',BlogApi.as_view(), name='blog_update'),
     path('updated_blog/',UpdateBlog.as_view(), name='blog_update'),
+   
     
 ]
