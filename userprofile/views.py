@@ -3,13 +3,12 @@ import django
 from django.db.models import Q
 from rest_framework import generics
 from django.contrib import messages
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import auth
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from userprofile.models import User,UserMessages,Chat_messages,ProfilePic,BlogPost
 from django.contrib.auth import login
-from serializers import Blogseralizer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
@@ -73,9 +72,7 @@ def login(request):
 @login_required
 def dashbord(request): 
     current_user=request.user
-    provider_name = request.GET.get('p')
-    # print(current_user)
-
+    
     social_account = request.user.socialaccount_set.filter(provider='provider_name').first()
     if social_account:
         request.user.first_name = social_account.extra_data.get('first_name', '')
@@ -110,7 +107,7 @@ def message_post(request):
     return render(request,"post1.html",{'users':users,'currentuser':currentuser})
 
 # send message function
-
+@login_required
 def send_message(request):
     if request.method =='POST':
         postuser=request.POST['postuser']
@@ -143,7 +140,7 @@ def profile(request):
 
 
 # Chatting function
-
+@login_required
 def chating_page(request):
 # def chating_page(request):
     context={}
@@ -347,5 +344,8 @@ def blog_delete(request,pk=None):
 #     return render(request, 'chat_room.html', {
 #         'room_name': room_name
 #     })
+
+
+
 
 
