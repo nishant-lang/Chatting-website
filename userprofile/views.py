@@ -7,11 +7,13 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import auth
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
-from userprofile.models import User,UserMessages,Chat_messages,ProfilePic,BlogPost
+from userprofile.models import User,UserMessages,Chat_messages,ProfilePic,BlogPost,Student,School
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-
+from rest_framework.views import APIView
+from django.http import HttpResponse
+# from serializers import Blogseralizer
 
 
 # User registrations
@@ -41,14 +43,14 @@ def register(request):
                 messages.info(request,'User created sucessfully')
                 return redirect('login/')        
         else:
-            messages.info(request,'Password does not matching') 
+            messages.info(request,'Password does not match') 
             return redirect("register")
             
     return render(request,'register.html')
 
 # User login
 
-def login(request):
+def Userlogin(request):
     if request.method =='POST':
         email=request.POST['email']
         password=request.POST['password']
@@ -71,23 +73,21 @@ def login(request):
 
 @login_required
 def dashbord(request): 
-    current_user=request.user
-    
-    social_account = request.user.socialaccount_set.filter(provider='provider_name').first()
-    if social_account:
-        request.user.first_name = social_account.extra_data.get('first_name', '')
-        request.user.last_name = social_account.extra_data.get('last_name', '')
-        request.user.email = social_account.extra_data.get('email', '')
-        request.user.save()
-    
 
+    current_user=request.user
+    # social_account = request.user.socialaccount_set.filter(provider='provider_name').first()
+    # if social_account:
+    #     request.user.first_name = social_account.extra_data.get('first_name', '')
+    #     request.user.last_name = social_account.extra_data.get('last_name', '')
+    #     request.user.email = social_account.extra_data.get('email', '')
+    #     request.user.save()
+    
     if request.method=="POST": 
         return render(request,'logedin.html') 
+    
     else:    
        csrf_token=django.middleware.csrf.get_token(request)
        return render(request,'logedin.html',{'current_user':current_user,'csrf_token':csrf_token}) 
-
-
 
 
 # Logout page
@@ -107,6 +107,7 @@ def message_post(request):
     return render(request,"post1.html",{'users':users,'currentuser':currentuser})
 
 # send message function
+
 @login_required
 def send_message(request):
     if request.method =='POST':
@@ -229,16 +230,20 @@ class Message(generics.GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class UserBlogPostAPi(generics.GenericAPIView):
+class UserBlogPostAPi(APIView):
    
     def post(self,request): 
+        print('hiiii')
         current_user=request.user
         blog=request.data['blog_typing']
+        
+        # print(blog)
+        # print(current_user)
 
         blogs=BlogPost.objects.model(user_blog=current_user,blog=blog)
         blogs.save()
         blog_id=blogs.id
-      
+        
         # tz_IN = pytz.timezone('Asia/Kolkata')
         # time = post.on_time.astimezone(tz_IN)
 
@@ -251,14 +256,16 @@ class UserBlogPostAPi(generics.GenericAPIView):
 
     def get(self,request):
         current_user=request.user
-        blogs=BlogPost.objects.filter(user_blog=current_user).all()  
+        blogs=BlogPost.objects.filter(user_blog=current_user).all()
+        print(blogs)  
 
     #    Below three lin code will be also use for pass the data through the serializer
 
-        # serializer=Blogseralizer(blogs,many=True)
+        # serializer=Blogseralizer(blogs)
         # print('HHHIII')
+        # print(serializer.data)
         # return Response({'data':serializer.data})
-       
+
         blog_content=[{
             'blog_id':blog.id,
             'blogs':blog.blog,
@@ -271,10 +278,12 @@ class UserBlogPostAPi(generics.GenericAPIView):
             'message':'success'
            })
 
-# Api for the profile pic
+    
+
+# API'S FOR PROFILE PICTURES
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ProfilePicAPi(generics.GenericAPIView):
+class ProfilePicAPi(APIView):
 
     def get(self,request):
         current_user=request.user
@@ -299,7 +308,7 @@ class ProfilePicAPi(generics.GenericAPIView):
 
 
 # Extracting the current post
-class BlogApi(generics.GenericAPIView):
+class BlogApi(APIView):
 
     def get(self,request,pk=None):    
         _id=pk
@@ -312,7 +321,7 @@ class BlogApi(generics.GenericAPIView):
         })
 
 
-class UpdateBlog(generics.GenericAPIView):
+class UpdateBlog(APIView):
 
     def post(self,request):
         blog_id = request.data['blog_id']
@@ -337,6 +346,7 @@ def blog_delete(request,pk=None):
     messages.info(request,'Your message has been deleted')
     return redirect('/dashbord/')
 
+
 # def chat_websocket(request):
 #     return render(request, 'chat_webScoket.html')
 
@@ -345,6 +355,20 @@ def blog_delete(request,pk=None):
 #         'room_name': room_name
 #     })
 
+
+def StudentData(request):
+    school_name='abc'
+    school_add='Ajwan'
+    obj=Student.objects.filter(Q(school__address=school_add)|Q(school__name=school_name))
+    # obj=Student.objects.filter(school__name=school_name)
+    print(obj)
+    a=[item for item  in obj]
+    print(a)
+    return HttpResponse(request,'you will get the success')
+
+
+
+    
 
 
 

@@ -1,5 +1,4 @@
 
-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -101,3 +100,29 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.blog
+    
+
+class School(models.Model):
+    name=models.CharField(max_length=100)
+    address=models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+class Student(models.Model):
+    school=models.ForeignKey(School,on_delete=models.CASCADE)
+    name=models.CharField(max_length=100)
+    email=models.EmailField(null=True)
+    mobile=models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.email
+
+
+
+
+
+
+
+
+

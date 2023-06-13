@@ -137,7 +137,7 @@
 		</div> 
 
         <div id="bloghtml">
-			<!--  blog Dom-manupulation is area -->
+			<!--  blog Dom-manupulation area -->
 	    </div>	
 
 	</div>
@@ -157,11 +157,11 @@
 		get_blog_post()
 		}) 
 
-	const imgpreview=document.querySelector('#frame')
+ 	const imgpreview=document.querySelector('#frame')
 	function preview() {
 		// frame.src=URL.createObjectURL(event.target.files[0]);
 		imgpreview.src=URL.createObjectURL(event.target.files[0]); 	
-	}
+	} 
 
 	const image=document.querySelector('#pic')
 	//console.log(image)
@@ -177,13 +177,14 @@
         const blog_typing=document.querySelector('#post').value 
 
 		data={'blog_typing':blog_typing}
-		//console.log(blog_typing) 
-		//console.log('{{csrf_token}}')
+
+		console.log(blog_typing) 
+		console.log('{{csrf_token}}')
 
 		fetch(`http://127.0.0.1:8000/blog_post/`,{
 
             method:"POST",
-			headers:{"Content-Type":"application/json"},
+			headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
 			body:JSON.stringify(data),
 			credential:'same-origin',
 		}).then(response => {
@@ -217,7 +218,8 @@
 
 //GET METHOD FOR THE BOLOGS WITH THE AJAX
 
-function get_blog_post(){    
+function get_blog_post(){  
+	  
 	$.ajax({
 		url: "http://127.0.0.1:8000/blog_post/",
 		type: "GET",
@@ -255,7 +257,6 @@ function get_blog_post(){
 
 		// fetch(`http://127.0.0.1:8000/blog_post/`,{
 		// 	method:'get',
-		// 	headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
 		// 	credentials:"same-origin"
 		// })
 		// .then(response=>{
@@ -293,7 +294,7 @@ function get_blog_post(){
 
 	//POST METHOD FOR THE PROFILE PICTURE WITH FETCH
 
-    const Profile = function(){
+    const Profile = function() {
 
 		var imgupdate = document.getElementById('avatar')
 		var data = new FormData();
@@ -302,12 +303,11 @@ function get_blog_post(){
 	    // console.log(data)
 		fetch(`http://127.0.0.1:8000/user_profile/`,{
 			method:"POST",
-			//headers:{"content-Type":""}, Content-type is set for the default in the project setting
+			//headers:{"content-Type":"csrfmiddlewaretoken","{{csrf_token}}"},Content-type is set for the default in the project setting
 			body:(data),
 			credential:'same-origin', 	
 		})
 		.then(response=>{
-				
 			Getprofilepic()
 		})
 	}
@@ -316,10 +316,8 @@ function get_blog_post(){
 
 	function Getprofilepic(){
 		image_update=document.querySelector('#avatar')
-		
 		var data = new FormData();
-		//data.append("csrfmiddlewaretoken","{{csrf_token}}");
-
+		
 		fetch(`http://127.0.0.1:8000/user_profile/`,{
 			method:'get',
 			data:data,
@@ -330,18 +328,15 @@ function get_blog_post(){
 			//console.log(response)
 
 		}).then((data)=>{
-			// console.log(data)
+			//console.log(data)
 			image_update.src=`/media/${data.img}`
 		})
 	}
-	
 	</script> 
 
-
+	
 <!-- BLOG UPDATING FETCH  -->
-
 	<script>
-        
     //for cureent post passing the id of the post
 	var selected_blog=0
 
@@ -353,7 +348,6 @@ function get_blog_post(){
 		fetch(`http://127.0.0.1:8000/blog_update/${blogid}`,{
 
 			method:'get',
-			//headers:{'X-CSRFToken':'{{csrf_token}}',"Content-Type":"application/json"},
 			credentials:"same-origin"
 
 		}).then(response=>{

@@ -95,7 +95,7 @@ DATABASES = {
     
     'default':{
        'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'Newmarkdb',
+        'NAME':'Mark_db',
         'USER':'postgres',
         'PASSWORD':'1234',
         'PORT':'5432' 
@@ -183,9 +183,6 @@ CHANNEL_LAYERS = {
     }
 }
 
-
-
-
 # For added all auth
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
@@ -209,3 +206,4 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 USE_I18N = True
+
